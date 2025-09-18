@@ -11,6 +11,29 @@
       font-family: 'Arial', sans-serif;
       overflow: hidden;
     }
+    #botao-inicio {
+      width: 220px;
+      height: 70px;
+      font-size: 2em;
+      background: #e75480;
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 2px 20px #e7548088;
+      cursor: pointer;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: background 0.2s;
+      z-index: 10;
+    }
+    #botao-inicio:hover {
+      background: #c43c65;
+    }
+    #conteudo {
+      display: none;
+    }
     h1 {
       color: #e75480;
       font-size: 3em;
@@ -74,13 +97,16 @@
   </style>
 </head>
 <body>
-  <audio id="musica" src="https://github.com/thallis753-dev/eu-te-amo/raw/refs/heads/main/3%20.%20Delacruz%20-%20Sunshine%20(Nonsense%20.%20Vol%201)(MP3_128K).mp3" autoplay loop></audio>
-  <h1>Eu te amo ❤️</h1>
-  <div class="imagens">
-    <img src="https://raw.githubusercontent.com/thallis753-dev/eu-te-amo/main/WhatsApp%20Image%202025-09-16%20at%205.51.48%20PM.jpeg" alt="Foto 1">
-    <img src="https://raw.githubusercontent.com/thallis753-dev/eu-te-amo/main/WhatsApp%20Image%202025-09-16%20at%205.51.49%20PM.jpeg" alt="Foto 2">
+  <button id="botao-inicio">clique aqui</button>
+  <div id="conteudo">
+    <audio id="musica" src="https://github.com/thallis753-dev/eu-te-amo/raw/refs/heads/main/3%20.%20Delacruz%20-%20Sunshine%20(Nonsense%20.%20Vol%201)(MP3_128K).mp3" loop></audio>
+    <h1>Eu te amo ❤️</h1>
+    <div class="imagens">
+      <img src="https://raw.githubusercontent.com/thallis753-dev/eu-te-amo/main/WhatsApp%20Image%202025-09-16%20at%205.51.48%20PM.jpeg" alt="Foto 1">
+      <img src="https://raw.githubusercontent.com/thallis753-dev/eu-te-amo/main/WhatsApp%20Image%202025-09-16%20at%205.51.49%20PM.jpeg" alt="Foto 2">
+    </div>
+    <div class="hearts" id="hearts"></div>
   </div>
-  <div class="hearts" id="hearts"></div>
   <script>
     // Gerar corações subindo
     function randomBetween(a, b) {
@@ -98,15 +124,19 @@
         heart.remove();
       }, 7000);
     }
-    setInterval(createHeart, 400);
 
-    // Tocar música a partir de um segundo exato após clique do usuário
-    document.addEventListener('click', function playMusicOnce() {
+    document.getElementById("botao-inicio").onclick = function() {
+      // Esconde o botão
+      document.getElementById("botao-inicio").style.display = "none";
+      // Mostra o conteúdo
+      document.getElementById("conteudo").style.display = "block";
+      // Começa a gerar corações
+      setInterval(createHeart, 400);
+      // Toca a música a partir de 36 segundos
       const audio = document.getElementById('musica');
-      audio.currentTime = 36; // Começa em 36 segundos
+      audio.currentTime = 36;
       audio.play();
-      document.removeEventListener('click', playMusicOnce);
-    });
+    };
   </script>
 </body>
 </html>
