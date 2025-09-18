@@ -29,8 +29,8 @@
       position: relative;
     }
     img {
-      max-width: 350px;
-      max-height: 350px;
+      max-width: 500px;
+      max-height: 500px;
       border-radius: 16px;
       box-shadow: 0 2px 20px #e7548088;
     }
@@ -100,9 +100,11 @@
     }
     setInterval(createHeart, 400);
 
-    // Tocar música automaticamente em navegadores bloqueados
+    // Tocar música a partir de um segundo exato após clique do usuário
     document.addEventListener('click', function playMusicOnce() {
-      document.getElementById('musica').play();
+      const audio = document.getElementById('musica');
+      audio.currentTime = 36; // Começa em 36 segundos
+      audio.play();
       document.removeEventListener('click', playMusicOnce);
     });
   </script>
