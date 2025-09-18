@@ -25,7 +25,7 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      transition: background 0.2s;
+      transition: background 0.2s, left 0.3s, top 0.3s;
       z-index: 10;
     }
     #botao-inicio:hover {
@@ -108,7 +108,19 @@
     <div class="hearts" id="hearts"></div>
   </div>
   <script>
-    // Gerar corações subindo
+    // Função para posicionar o botão em local aleatório sem sair da tela
+    function moveBotaoAleatorio() {
+      const botao = document.getElementById("botao-inicio");
+      const largura = window.innerWidth - botao.offsetWidth;
+      const altura = window.innerHeight - botao.offsetHeight;
+      const left = Math.random() * largura;
+      const top = Math.random() * altura;
+      botao.style.left = `${left}px`;
+      botao.style.top = `${top}px`;
+      botao.style.transform = ""; // remove o translate do CSS inicial
+    }
+
+    // Geração dos corações
     function randomBetween(a, b) {
       return a + Math.random() * (b - a);
     }
@@ -119,24 +131,35 @@
       heart.style.animationDuration = `${randomBetween(4, 7)}s`;
       heart.style.opacity = randomBetween(0.5, 0.9);
       document.getElementById('hearts').appendChild(heart);
-
       setTimeout(() => {
         heart.remove();
       }, 7000);
     }
 
+    // Lógica de clique
+    let contador = 0;
+    const maxCliques = 5;
+
     document.getElementById("botao-inicio").onclick = function() {
-      // Esconde o botão
-      document.getElementById("botao-inicio").style.display = "none";
-      // Mostra o conteúdo
-      document.getElementById("conteudo").style.display = "block";
-      // Começa a gerar corações
-      setInterval(createHeart, 400);
-      // Toca a música a partir de 36 segundos
-      const audio = document.getElementById('musica');
-      audio.currentTime = 36;
-      audio.play();
+      contador++;
+      if (contador < maxCliques) {
+        moveBotaoAleatorio();
+      } else {
+        // Esconde o botão e mostra o conteúdo
+        document.getElementById("botao-inicio").style.display = "none";
+        document.getElementById("conteudo").style.display = "block";
+        setInterval(createHeart, 400);
+        // Toca a música a partir de 36 segundos
+        const audio = document.getElementById('musica');
+        audio.currentTime = 36;
+        audio.play();
+      }
     };
+
+    // Garante que o botão nunca fique fora da tela quando a janela for redimensionada
+    window.addEventListener('resize', function() {
+      if (contador < maxCliques) moveBotaoAleatorio();
+    });
   </script>
 </body>
 </html>
